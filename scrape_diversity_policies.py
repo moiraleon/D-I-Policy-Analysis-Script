@@ -17,6 +17,10 @@ logging.basicConfig(
     ]
 )
 
+# Set a fetch limit for how many requests to make
+FETCH_LIMIT = 100  # Adjust this number as needed
+request_counter = 0  # Track the number of successful fetches
+
 def is_valid_ip(url):
     """
     Validates if the given URL resolves to an IP address.
@@ -41,7 +45,7 @@ def load_country_data(file_path):
         countries = f.readlines()
     return [line.strip() for line in countries if line.strip()]
 
-def fetch_policy_data(url):
+def fetch_policy_data(url, timeout=10):
     """
     Fetches and extracts policy data from the given URL.
     Returns the policy data (e.g., page title) or None in case of an error.
@@ -51,14 +55,26 @@ def fetch_policy_data(url):
         return None
 
     try:
-        response = requests.get(url)
+        response = requests.get(url, timeout=timeout)  # Set timeout for the request
         response.raise_for_status()  # Check if request was successful
+
+        # Handling specific HTTP error codes
+        if response.status_code == 404:
+            logging.error(f"Page not found (404) at {url}. Skipping this URL.")
+            return None
+        elif response.status_code == 403:
+            logging.error(f"Access forbidden (403) at {url}. Skipping this URL.")
+            return None
+        
         soup = BeautifulSoup(response.content, 'html.parser')
 
         # Example: Extracting the title of the page (adjust as needed)
         title = soup.find('title').get_text()
         logging.info(f"Successfully fetched policy data from {url}")
         return title
+    except requests.exceptions.Timeout:
+        logging.error(f"Request to {url} timed out. Skipping this URL.")
+        return None
     except requests.exceptions.RequestException as e:
         logging.error(f"Error fetching {url}: {e}")
         return None
@@ -72,7 +88,12 @@ def main():
     countries = load_country_data(countries_file)
 
     with open("output.txt", "w") as output_file:
+        global request_counter  # Access the global request counter
         for country_entry in countries:
+            if request_counter >= FETCH_LIMIT:
+                logging.info("Fetch limit reached. Exiting the process.")
+                break  # Exit the loop if the fetch limit is reached
+
             try:
                 # Split each line into country and policy information
                 country_name, policy_info = country_entry.split(":", 1)
@@ -91,6 +112,10 @@ def main():
                         output_file.write(f"{country_name} - {policy_name}: {policy_data}\n")
                     else:
                         output_file.write(f"{country_name} - {policy_name}: Error fetching data\n")
+
+                    # Increment the request counter on each successful fetch
+                    if policy_data:
+                        request_counter += 1
 
                     time.sleep(2)  # Sleep to avoid overwhelming the server (adjust if needed)
 
