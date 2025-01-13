@@ -68,10 +68,16 @@ def fetch_policy_data(url, timeout=10):
         
         soup = BeautifulSoup(response.content, 'html.parser')
 
-        # Example: Extracting the title of the page (adjust as needed)
-        title = soup.find('title').get_text()
-        logging.info(f"Successfully fetched policy data from {url}")
-        return title
+        # Check if <title> tag exists before extracting the text
+        title_tag = soup.find('title')
+        if title_tag:
+            title = title_tag.get_text()
+            logging.info(f"Successfully fetched policy data from {url}")
+            return title
+        else:
+            logging.warning(f"No <title> tag found at {url}. Returning default message.")
+            return "No title found"
+
     except requests.exceptions.Timeout:
         logging.error(f"Request to {url} timed out. Skipping this URL.")
         return None
