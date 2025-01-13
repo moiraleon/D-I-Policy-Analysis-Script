@@ -6,6 +6,7 @@ import socket
 import logging
 from urllib.parse import urlparse
 import ipaddress
+import re
 
 # Setup logging to log to a file and also output logs to terminal
 logging.basicConfig(
@@ -48,7 +49,7 @@ def load_country_data(file_path):
 def fetch_policy_data(url, timeout=10):
     """
     Fetches and extracts policy data from the given URL.
-    Returns the policy data (e.g., page title) or None in case of an error.
+    Returns the policy data (e.g., page title and a quick synopsis) or None in case of an error.
     """
     if not is_valid_ip(url):
         logging.error(f"Invalid URL: {url}")
@@ -72,11 +73,21 @@ def fetch_policy_data(url, timeout=10):
         title_tag = soup.find('title')
         if title_tag:
             title = title_tag.get_text()
-            logging.info(f"Successfully fetched policy data from {url}")
-            return title
         else:
-            logging.warning(f"No <title> tag found at {url}. Returning default message.")
-            return "No title found"
+            title = "No title found"
+            logging.warning(f"No <title> tag found at {url}.")
+
+        # Extracting a synopsis from the main body of the page
+        # Try to find <p> tags or <div> containing main content
+        content = soup.find_all(['p', 'div'], limit=3)  # Limit to first 3 content blocks
+        synopsis = " ".join([para.get_text() for para in content])  # Combine text from the first few paragraphs
+
+        # Trim the synopsis if it's too long
+        if len(synopsis) > 300:
+            synopsis = synopsis[:300] + "..."  # Limit synopsis to 300 characters for brevity
+
+        logging.info(f"Successfully fetched policy data from {url}")
+        return title, synopsis
 
     except requests.exceptions.Timeout:
         logging.error(f"Request to {url} timed out. Skipping this URL.")
@@ -85,13 +96,51 @@ def fetch_policy_data(url, timeout=10):
         logging.error(f"Error fetching {url}: {e}")
         return None
 
+
+# Perform text analysis to count supportive or preventive words
+def analyze_text(text):
+    supportive_words = ['Support', 'Encourage', 'Provide', 'Promote', 'Empower', 'Help', 'Inspire', 'Assist', 'Strengthen', 'Facilitate']
+    preventive_words = ['Prevent', 'Avoid', 'Refrain', 'Prohibit', 'Restrict', 'Stop', 'Discourage', 'Exclude', 'Block', 'Limit']
+    
+    supportive_count = sum([len(re.findall(r'\b' + word + r'\b', text, re.IGNORECASE)) for word in supportive_words])
+    preventive_count = sum([len(re.findall(r'\b' + word + r'\b', text, re.IGNORECASE)) for word in preventive_words])
+    
+    return supportive_count, preventive_count
+
+# # Main function to process all countries
+# def process_countries(countries_list_path):
+#     countries = load_country_data(countries_list_path)
+#     results = {}
+    
+#     for country, url in countries.items():
+#         logging.info(f"Processing {country}...")
+#         policy_content = fetch_policy_data(url)
+        
+#         if policy_content:
+#             supportive, preventive = analyze_text(policy_content)
+#             results[country] = {'Supportive Actions': supportive, 'Preventive Actions': preventive}
+#         time.sleep(2)  # To prevent overwhelming the server
+    
+#     return results
+
+# Function to generate and save the results to a file
+def save_results(results, output_path):
+    with open(output_path, 'w') as file:
+        for country, analysis in results.items():
+            file.write(f"{country}:\n")
+            file.write(f"  Supportive Actions: {analysis['Supportive Actions']}\n")
+            file.write(f"  Preventive Actions: {analysis['Preventive Actions']}\n\n")
+    logging.info(f"Results saved to {output_path}")  
+
 def main():
     """
     Main function to process the country-policy data and fetch policy information.
     Outputs results to 'output.txt' and logs the process.
     """
-    countries_file = "countries_list.txt"
+    ##countries_file = "countries_list.txt"
+    countries_file = "countries_list_test.txt"
     countries = load_country_data(countries_file)
+    results = {}
 
     with open("output.txt", "w") as output_file:
         global request_counter  # Access the global request counter
@@ -114,10 +163,15 @@ def main():
                     print(f"Processing {country_name} - {policy_name}...")
                     policy_data = fetch_policy_data(url)
 
+                    # if policy_data:
+                    #     output_file.write(f"{country_name} - {policy_name}: {policy_data}\n")
                     if policy_data:
-                        output_file.write(f"{country_name} - {policy_name}: {policy_data}\n")
-                    else:
-                        output_file.write(f"{country_name} - {policy_name}: Error fetching data\n")
+                        supportive, preventive = analyze_text(policy_data)
+                        results[country_name] = {'Supportive Actions': supportive, 'Preventive Actions': preventive}
+                    time.sleep(2)  # To prevent overwhelming the server    
+                    return results
+                    # else:
+                    #     output_file.write(f"{country_name} - {policy_name}: Error fetching data\n")
 
                     # Increment the request counter on each successful fetch
                     if policy_data:
