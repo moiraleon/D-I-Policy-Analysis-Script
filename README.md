@@ -2,83 +2,81 @@
 
 ## Overview
 
-This subsection of research aims to grasp a deeper linguistic-based understanding of **Diversity & Inclusion (D&I) Policies** across different countries. The analysis focuses on identifying underlying trends in how policies are framed, specifically looking at supportive versus preventive or restrictive language used in the documentation. This text-based analysis was facilitated through the support and use of **ChatGPT**. While ChatGPT provides useful assistance in generating and analyzing content, it is important to note that ChatGPT may make errors. Acknowledgment is given here to potential inaccuracies in the data presented below.
-
-The script used for the text analysis was also supported through ChatGPT, which again is known to make errors. The repository is stored on GitHub for public access and review, and the data can be used for further exploration and refinement of D&I policy language.
+This subsection of research aims to grasp a deeper linguistic-based understanding of Diversity & Inclusion Policies across different countries. This text-based analysis was facilitated through the support and use of ChatGPT. ChatGPT is known to make errors, and a disclaimer is extended here as a means of acknowledging potential errors in the data below. The script used to perform the text analysis was also supported through ChatGPT which is known to make errors. The repository is stored on GitHub for public access and review.
 
 ## Methods
 
-The following countries have been used as a general sample to review and determine underlying trends in D&I policies. The analysis aims to provide insights into how different countries approach diversity and inclusion in the workplace through text-based analysis of policy documents. Each country's D&I policy documents will undergo a review to compare the frequency and context of **supportive and preventive language**.
+The following countries have been used as a general sample in reviewing and determining underlying trends in D&I policies. Each of the listed countries’ D&I policy documents will undergo a text analysis review of supportive and preventive word increments for comparison.
 
-### Countries:
-
-- United States
-- Canada
-- United Kingdom
-- Australia
-- Germany
-- France
-- Japan
-- Brazil
-- South Africa
-- India
-- Mexico
-- China
-- Spain
-- Italy
-- Sweden
-
-Each of these countries was analyzed based on the list of D&I policies presented in the table below.
+Countries: United States, Canada, United Kingdom, Australia, Germany, France, Japan, Brazil, South Africa, India, Mexico, China, Spain, Italy, Sweden
 
 ## Countries and D&I Policies
 
-The D&I policies reviewed in this analysis are as follows:
+Each country was analyzed based on the list of D&I policies in the table below.
 
-| **Country**      | **Diversity and Inclusion (D&I) Policies**                                                                                                                                     |
-|------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| United States    | Equal Employment Opportunity (EEO) laws, Affirmative Action, Americans with Disabilities Act (ADA), Family and Medical Leave Act (FMLA), Workplace Gender Equality (Title VII) |
-| Canada           | Employment Equity Act, Canadian Charter of Rights and Freedoms, Accessibility for Ontarians with Disabilities Act, Pay Equity Act                                           |
-| United Kingdom   | Equality Act 2010, Public Sector Equality Duty, Gender Pay Gap Reporting, Race and Disability Equality Charters                                                            |
-| Australia        | Workplace Gender Equality Act, Disability Discrimination Act, Australian Human Rights Commission Act, Equal Opportunity for Women in the Workplace Act                        |
-| Germany          | General Equal Treatment Act (AGG), Federal Equal Opportunities Act, Disability Employment Act, Gender Equality Act (for public service)                                        |
-| France           | French Labor Code (Equality in Workplace), Disability Employment Obligations, Gender Equality Index, Diversity and Inclusion Charters for Companies                           |
-| Japan            | Equal Employment Opportunity Law, Act on Employment Promotion of Persons with Disabilities, Gender Equality Bureau, Diversity Management Systems in Companies                |
-| Brazil           | Equal Opportunity Act, Disability Inclusion Laws, Anti-Discrimination Policies for LGBT+ Employees, Women’s Work Equity Laws                                                  |
-| South Africa     | Employment Equity Act, Broad-Based Black Economic Empowerment (B-BBEE), Gender Equality and Empowerment Laws, Transformation Policies for Workplace Diversity                  |
-| India            | Equal Remuneration Act, The Rights of Persons with Disabilities Act, Sexual Harassment of Women at Workplace (Prevention, Prohibition and Redressal) Act                       |
-| Mexico           | Federal Labor Law (Non-discrimination), Gender Equality Act, Disability Employment Regulations, Anti-discrimination clauses in the Constitution                              |
-| China            | Labor Law (Equal Opportunity), Disability Employment Law, Women’s Rights and Gender Equality Laws, Anti-discrimination Policies in the Workplace                             |
-| Spain            | Gender Equality Law, Anti-discrimination Law for LGBT+ Individuals, Disability Employment Law, Family-Friendly Workplace Law, Workplace Equality Act                         |
-| Italy            | Equal Opportunities Law, Anti-Discrimination Act, Workers' Rights to Gender Equality, Equal Treatment of Migrant Workers Act                                                     |
-| Sweden           | Equal Treatment Act, Discrimination Act, Parental Leave Act, Equality in the Workplace Law, LGBT+ Inclusion Laws, Disability Employment Regulations                           |
+| Country          | Diversity and Inclusion (D&I) Policies                                                                                                      |
+|------------------|----------------------------------------------------------------------------------------------------------------------------------------------|
+| United States    | Equal Employment Opportunity (EEO) laws, Affirmative Action, Americans with Disabilities Act (ADA), Family and Medical Leave Act (FMLA), Workplace Gender Equality (e.g., Title VII) |
+| Canada           | Employment Equity Act, Canadian Charter of Rights and Freedoms, Accessibility for Ontarians with Disabilities Act, Pay Equity Act           |
+| United Kingdom   | Equality Act 2010, Public Sector Equality Duty, Gender Pay Gap Reporting, Race and Disability Equality Charters                            |
+| Australia        | Workplace Gender Equality Act, Disability Discrimination Act, Australian Human Rights Commission Act, Equal Opportunity for Women in the Workplace Act |
+| Germany          | General Equal Treatment Act (AGG), Federal Equal Opportunities Act, Disability Employment Act, Gender Equality Act (for public service)    |
+| France           | French Labor Code (Equality in Workplace), Disability Employment Obligations, Gender Equality Index, Diversity and Inclusion Charters for Companies |
+| Japan            | Equal Employment Opportunity Law, Act on Employment Promotion of Persons with Disabilities, Gender Equality Bureau, Diversity Management Systems in Companies |
+| Brazil           | Equal Opportunity Act, Disability Inclusion Laws, Anti-Discrimination Policies for LGBT+ Employees, Women’s Work Equity Laws              |
+| South Africa     | Employment Equity Act, Broad-Based Black Economic Empowerment (B-BBEE), Gender Equality and Empowerment Laws, Transformation Policies for Workplace Diversity |
+| India            | Equal Remuneration Act, The Rights of Persons with Disabilities Act, Sexual Harassment of Women at Workplace (Prevention, Prohibition and Redressal) Act |
+| Mexico           | Federal Labor Law (Non-discrimination), Gender Equality Act, Disability Employment Regulations, Anti-discrimination clauses in the Constitution |
+| China            | Labor Law (Equal Opportunity), Disability Employment Law, Women’s Rights and Gender Equality Laws, Anti-discrimination Policies in the Workplace |
+| Spain            | Gender Equality Law, Anti-discrimination Law for LGBT+ Individuals, Disability Employment Law, Family-Friendly Workplace Law, Workplace Equality Act |
+| Italy            | Equal Opportunities Law, Anti-Discrimination Act, Workers' Rights to Gender Equality, Equal Treatment of Migrant Workers Act                  |
+| Sweden           | Equal Treatment Act, Discrimination Act, Parental Leave Act, Equality in the Workplace Law, LGBT+ Inclusion Laws, Disability Employment Regulations |
 
-## Word Categories for Analysis
+## Supportive or Encouraging Actions:
+- Support
+- Encourage
+- Provide
+- Promote
+- Empower
+- Help
+- Inspire
+- Assist
+- Strengthen
+- Facilitate
 
-The analysis will focus on identifying **supportive/encouraging** and **preventive/restrictive** language in the documents. The following words have been categorized for text analysis:
+## Preventive or Restrictive Actions:
+- Prevent
+- Avoid
+- Refrain
+- Prohibit
+- Restrict
+- Stop
+- Discourage
+- Exclude
+- Block
+- Limit
 
-### Supportive or Encouraging Actions:
-- Support, Encourage, Provide, Promote, Empower, Help, Inspire, Assist, Strengthen, Facilitate
+## Output
 
-### Preventive or Restrictive Actions:
-- Prevent, Avoid, Refrain, Prohibit, Restrict, Stop, Discourage, Exclude, Block, Limit
+For those who do not have the library dependencies installed, a sample output has been stored in the file labeled `output.txt`.
 
-These word categories will be used to analyze the D&I policies and explore the balance between supportive versus preventive language in the policy documents.
+## Dependencies
 
-## Disclaimer
+The following Python libraries are required to run the text analysis script:
 
-Please note that the analysis provided in this repository is based on publicly available policy texts and the automated analysis performed using **ChatGPT**. As with any automated tool, errors may exist in the processing of these documents, and readers should be mindful of potential inaccuracies in the findings. The results presented are intended for further discussion and exploration into how D&I policies are framed across different nations.
+- `requests` (for downloading the D&I policy documents)
+- `beautifulsoup4` (for parsing HTML content from the documents)
+- `nltk` (for natural language processing tasks)
+- `pandas` (for organizing and analyzing the data)
 
-## Repository Files
+To install these dependencies, run the following commands:
 
-This repository contains the following files:
+```bash
+brew install python3
+pip3 install requests beautifulsoup4 nltk pandas
+```
 
-- `countries_list.txt`: A list of countries and their associated D&I policies, along with links to policy details.
-- `text_analysis_script.py`: A Python script that performs text-based analysis on the D&I policy documents.
+Alternatively, you can create a virtual environment and install the necessary libraries within that environment.
 
-Feel free to explore the code, run the analysis, and contribute to the ongoing research in this area.
-
-## Contributions
-
-Contributions to this project are welcome! If you have suggestions for improving the analysis, additional countries to include, or enhancements to the scripts, please feel free to submit a pull request.
-
----
+##License
+This project is licensed under the MIT License - see the LICENSE file for details.
