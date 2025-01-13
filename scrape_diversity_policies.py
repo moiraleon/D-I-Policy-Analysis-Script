@@ -2,6 +2,35 @@ import requests
 from bs4 import BeautifulSoup
 import os
 import time
+import socket
+import logging
+from urllib.parse import urlparse
+import ipaddress
+
+# Setup logging to log to a file and also output logs to terminal
+logging.basicConfig(
+    level=logging.DEBUG,  # Set to DEBUG to see more details in the terminal
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    handlers=[
+        logging.FileHandler("scrape_diversity_policies.log"),  # Log to file
+        logging.StreamHandler()  # Log to terminal (console)
+    ]
+)
+
+def is_valid_ip(url):
+    """
+    Validates if the given URL resolves to an IP address.
+    Returns True if it resolves to an IP address, False otherwise.
+    """
+    try:
+        hostname = urlparse(url).hostname
+        # Try to resolve the hostname to an IP address
+        socket.gethostbyname(hostname)
+        logging.info(f"Valid IP address found for: {hostname}")
+        return True
+    except (socket.gaierror, AttributeError):
+        logging.warning(f"Invalid URL or unable to resolve IP address: {url}")
+        return False
 
 def load_country_data(file_path):
     """
@@ -17,6 +46,10 @@ def fetch_policy_data(url):
     Fetches and extracts policy data from the given URL.
     Returns the policy data (e.g., page title) or None in case of an error.
     """
+    if not is_valid_ip(url):
+        logging.error(f"Invalid URL: {url}")
+        return None
+
     try:
         response = requests.get(url)
         response.raise_for_status()  # Check if request was successful
@@ -24,39 +57,47 @@ def fetch_policy_data(url):
 
         # Example: Extracting the title of the page (adjust as needed)
         title = soup.find('title').get_text()
-        
-        # Here, you can add logic to extract specific data related to policies
+        logging.info(f"Successfully fetched policy data from {url}")
         return title
     except requests.exceptions.RequestException as e:
-        print(f"Error fetching {url}: {e}")
+        logging.error(f"Error fetching {url}: {e}")
         return None
 
 def main():
     """
     Main function to process the country-policy data and fetch policy information.
-    Outputs results to 'output.txt'.
+    Outputs results to 'output.txt' and logs the process.
     """
     countries_file = "countries_list.txt"
     countries = load_country_data(countries_file)
 
     with open("output.txt", "w") as output_file:
         for country_entry in countries:
-            # Split each line into country and policy information
-            country_name, policy_info = country_entry.split(":", 1)
-            policy_name, url = policy_info.split(" [", 1)
-            url = url.rstrip("]")  # Remove the closing bracket
+            try:
+                # Split each line into country and policy information
+                country_name, policy_info = country_entry.split(":", 1)
+                # Extracting multiple policy names and URLs from the same line
+                policies = policy_info.split(", ")
 
-            print(f"Processing {country_name} - {policy_name}...")
-            policy_data = fetch_policy_data(url)
+                for policy in policies:
+                    # Extract the policy name and URL
+                    policy_name, url = policy.split(" [", 1)
+                    url = url.rstrip("]")  # Remove the closing bracket
 
-            if policy_data:
-                output_file.write(f"{country_name} - {policy_name}: {policy_data}\n")
-            else:
-                output_file.write(f"{country_name} - {policy_name}: Error fetching data\n")
+                    print(f"Processing {country_name} - {policy_name}...")
+                    policy_data = fetch_policy_data(url)
 
-            time.sleep(2)  # Sleep to avoid overwhelming the server (adjust if needed)
+                    if policy_data:
+                        output_file.write(f"{country_name} - {policy_name}: {policy_data}\n")
+                    else:
+                        output_file.write(f"{country_name} - {policy_name}: Error fetching data\n")
 
-    print("Process completed! Check 'output.txt' for the results.")
+                    time.sleep(2)  # Sleep to avoid overwhelming the server (adjust if needed)
+
+            except ValueError as e:
+                logging.error(f"Error processing line: {country_entry}. {e}")
+
+    print("Process completed! Check 'output.txt' for the results and 'scrape_diversity_policies.log' for detailed logs.")
 
 if __name__ == "__main__":
     main()
